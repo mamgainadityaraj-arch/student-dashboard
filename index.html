@@ -5,187 +5,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard</title>
 
+    <!-- CSS -->
     <link rel="stylesheet" href="style.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <meta name="theme-color" content="#4f46e5">
 </head>
+
 <body>
 
-    <!-- Header -->
-    <header>
-        <h1>📚 Student Dashboard</h1>
+<header class="topbar">
+    <h1><i class="fa-solid fa-graduation-cap"></i> Student Dashboard</h1>
 
-        <button id="darkModeBtn">
-            🌙 Dark Mode
-        </button>
-    </header>
+    <button id="darkModeBtn">
+        <i class="fa-solid fa-moon"></i>
+    </button>
+</header>
 
-    <!-- Stats Section -->
-    <section class="stats">
+<!-- STATS -->
+<section class="stats">
 
-        <div class="card">
-            <h3>Homework Pending</h3>
-            <p id="pendingCount">0</p>
-        </div>
+    <div class="card">
+        <h3><i class="fa-solid fa-book"></i> Homework Pending</h3>
+        <p id="pendingCount">0</p>
+    </div>
 
-        <div class="card">
-            <h3>Homework Completed</h3>
-            <p id="completedCount">0</p>
-        </div>
+    <div class="card">
+        <h3><i class="fa-solid fa-check"></i> Homework Done</h3>
+        <p id="completedCount">0</p>
+    </div>
 
-        <div class="card">
-            <h3>Upcoming Exams</h3>
-            <p id="examCount">0</p>
-        </div>
+    <div class="card">
+        <h3><i class="fa-solid fa-clock"></i> Exams</h3>
+        <p id="examCount">0</p>
+    </div>
 
-        <div class="card">
-            <h3>Study Streak</h3>
-            <p id="streakDisplay">0 Days</p>
-        </div>
+    <div class="card">
+        <h3><i class="fa-solid fa-fire"></i> Streak</h3>
+        <p id="streakDisplay">0 Days</p>
+    </div>
 
-    </section>
+</section>
 
-    <!-- Homework Tracker -->
-    <section class="dashboard-section">
+<!-- HOMEWORK -->
+<section class="section">
+    <h2><i class="fa-solid fa-book"></i> Homework Tracker</h2>
 
-        <h2>📝 Homework Tracker</h2>
+    <div class="input-grid">
+        <input type="text" id="homeworkTitle" placeholder="Title">
+        <input type="text" id="homeworkSubject" placeholder="Subject">
+        <input type="date" id="homeworkDate">
 
-        <div class="form-group">
-            <input
-                type="text"
-                id="homeworkTitle"
-                placeholder="Homework Title">
+        <select id="homeworkStatus">
+            <option>To Do</option>
+            <option>In Progress</option>
+            <option>Done</option>
+        </select>
+    </div>
 
-            <input
-                type="text"
-                id="homeworkSubject"
-                placeholder="Subject">
+    <button onclick="addHomework()">Add Homework</button>
 
-            <input
-                type="date"
-                id="homeworkDate">
+    <div id="homeworkList"></div>
+</section>
 
-            <select id="homeworkStatus">
-                <option value="To Do">To Do</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Done">Done</option>
-            </select>
+<!-- EXAMS -->
+<section class="section">
+    <h2><i class="fa-solid fa-clock"></i> Exam Countdown</h2>
 
-            <button onclick="addHomework()">
-                Add Homework
-            </button>
-        </div>
+    <div class="input-grid">
+        <input type="text" id="examName" placeholder="Exam Name">
+        <input type="date" id="examDate">
+    </div>
 
-        <div id="homeworkList"></div>
+    <button onclick="addExam()">Add Exam</button>
 
-    </section>
+    <div id="examList"></div>
+</section>
 
-    <!-- Exam Countdown -->
-    <section class="dashboard-section">
+<!-- MARKS -->
+<section class="section">
+    <h2><i class="fa-solid fa-chart-line"></i> Marks Tracker</h2>
 
-        <h2>⏳ Exam Countdown</h2>
+    <div class="input-grid">
+        <input type="text" id="subjectName" placeholder="Subject">
+        <input type="number" id="marksObtained" placeholder="Obtained">
+        <input type="number" id="totalMarks" placeholder="Total">
+    </div>
 
-        <div class="form-group">
-            <input
-                type="text"
-                id="examName"
-                placeholder="Exam Name">
+    <button onclick="addMarks()">Add Marks</button>
 
-            <input
-                type="date"
-                id="examDate">
+    <div id="marksList"></div>
 
-            <button onclick="addExam()">
-                Add Exam
-            </button>
-        </div>
+    <p class="summary">
+        Average: <span id="averagePercentage">0%</span>
+    </p>
+</section>
 
-        <div id="examList"></div>
+<!-- GRAPH -->
+<section class="section">
+    <h2><i class="fa-solid fa-chart-simple"></i> Progress Graph</h2>
+    <canvas id="marksChart"></canvas>
+</section>
 
-    </section>
+<!-- REMINDERS -->
+<section class="section">
+    <h2><i class="fa-solid fa-bell"></i> Study Reminders</h2>
 
-    <!-- Marks Tracker -->
-    <section class="dashboard-section">
+    <div class="input-grid">
+        <input type="text" id="reminderText" placeholder="Task">
+        <input type="datetime-local" id="reminderTime">
+    </div>
 
-        <h2>📊 Marks Tracker</h2>
+    <button onclick="addReminder()">Add Reminder</button>
 
-        <div class="form-group">
+    <div id="reminderList"></div>
+</section>
 
-            <input
-                type="text"
-                id="subjectName"
-                placeholder="Subject">
+<!-- GOALS -->
+<section class="section">
+    <h2><i class="fa-solid fa-bullseye"></i> Study Goals</h2>
 
-            <input
-                type="number"
-                id="marksObtained"
-                placeholder="Marks Obtained">
+    <input type="text" id="goalInput" placeholder="Enter goal">
+    <button onclick="addGoal()">Add Goal</button>
 
-            <input
-                type="number"
-                id="totalMarks"
-                placeholder="Total Marks">
+    <div id="goalList"></div>
+</section>
 
-            <button onclick="addMarks()">
-                Add Marks
-            </button>
+<!-- STREAK -->
+<section class="section">
+    <h2><i class="fa-solid fa-fire"></i> Study Streak</h2>
 
-        </div>
+    <button id="studyBtn">Mark Today as Done</button>
 
-        <div id="marksList"></div>
+    <div class="streak-box">
+        <p>Current: <span id="currentStreak">0</span> days</p>
+        <p>Best: <span id="bestStreak">0</span> days</p>
+    </div>
+</section>
 
-        <h3>
-            Average Percentage:
-            <span id="averagePercentage">0%</span>
-        </h3>
-
-    </section>
-
-    <!-- Study Streak -->
-    <section class="dashboard-section">
-
-        <h2>🔥 Study Streak</h2>
-
-        <button id="studyBtn">
-            Studied Today
-        </button>
-
-        <h3>
-            Current Streak:
-            <span id="currentStreak">0</span>
-        </h3>
-
-        <h3>
-            Best Streak:
-            <span id="bestStreak">0</span>
-        </h3>
-
-    </section>
-
-    <!-- Goals -->
-    <section class="dashboard-section">
-
-        <h2>🎯 Study Goals</h2>
-
-        <div class="form-group">
-
-            <input
-                type="text"
-                id="goalInput"
-                placeholder="Enter Goal">
-
-            <button onclick="addGoal()">
-                Add Goal
-            </button>
-
-        </div>
-
-        <div id="goalList"></div>
-
-    </section>
-
-    <!-- Notification Box -->
-    <div id="notification"></div>
-
-    <script src="script.js"></script>
+<!-- SCRIPT -->
+<script src="script.js"></script>
 
 </body>
 </html>
